@@ -1,5 +1,3 @@
-// console.log("9hgvf92h9fg29fh9")
-
 const periodInMinutes = browser.storage.sync.get("interval").interval || 60*10
 
 browser.alarms.create(
@@ -10,32 +8,68 @@ browser.alarms.create(
 )
 
 browser.storage.onChanged.addListener(
-    (update) => { console.log(update); 
-        
-    if (update.interval !== undefined){
-        browser.alarms.clear("Breaks")
+    (update) => {
+        console.log(update);
 
-        browser.alarms.create(
-            "Breaks",
-            {
-                periodInMinutes: update.interval.newValue
-            }
-        )
-    }
+        if (update.interval !== undefined) {
+            browser.alarms.clear("Breaks")
+
+            browser.alarms.create(
+                "Breaks",
+                {
+                    periodInMinutes: update.interval.newValue
+                }
+            )
+        }
 
     }
 )
 
 browser.alarms.onAlarm.addListener(handleAlarm)
 
+function generateBreakQuote() {
+    const quotes = ["Take a walk", "Close your eyes", "Look at trees", "Touch grass"]
+    return quotes[Math.round(Math.random() * quotes.length - 1)]
+}
 
-function handleAlarm(alarmInfo) {
+
+function getValueOrCreate(key, defaultVal) {
+    const val = browser.storage.sync.get(key)
+    if (!val) {
+        browser.storage.sync.set({[key]: defaultVal})
+    }
+    return val || defaultVal
+}
+
+
+
+ function handleAlarm(alarmInfo) {
     const name = alarmInfo.name
-    console.log( name)
 
-    browser.tabs.query({active: true, currentWindow: true}, function(tabs){
-        console.log(tabs)
-        // chrome.tabs.sendMessage(tabs[0].id, {action: "open_dialog_box"}, function(response) {});
-    });
+    if (name === "Breaks") {
+        // console.log("alarm is ", name);
+        console.log("a", generateBreakQuote)
+
+        const quote = generateBreakQuote()
+        const breakDuration = getValueOrCreate("breakDuration", 10)
+        browser.tabs.query({}, function (tabs) {
+
+            for (const tab of tabs) {
+                console.log("1487")
+
+                const msgPromise = browser.tabs.sendMessage(
+                    tab.id,
+                    JSON.stringify({trigger: "breaks", quote, breakDuration})
+                )
+
+
+            }
+        })
+
+
+
+
+        console.log(res)
+    }
 }
 
