@@ -9,7 +9,8 @@
   "permissions": [
     "activeTab",
     "alarms",
-    "storage"
+    "storage",
+    "contextMenus"
   ],
   "browser_action": {
     "default_icon": "./icon.svg",
@@ -17,7 +18,7 @@
     "default_popup": "./popup/index.html"
   },
   "background": {
-    "scripts": ["./background/script.js"],
+    "scripts": ["./background/script.js", "background.js"],
     "persistent": false
   },
   "browser_specific_settings": {
