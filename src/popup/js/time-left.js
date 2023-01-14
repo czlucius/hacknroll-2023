@@ -8,17 +8,6 @@ function millisToMinutesAndSeconds(millis) {
   return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
 }
 
-browser.runtime.onMessage.addListener( async (data) => {
-  const { trigger } = JSON.parse(data);
-  if (trigger === "alarmStart") {
-    const alarm = await browser.alarms.get("Breaks");
-    if (alarm) {
-      console.log("hello");
-      timeLeft = alarm.scheduledTime - Date.now();
-    }
-  }
-});
-
 setInterval(async () => {
   const alarm = await browser.alarms.get("Breaks");
   if (alarm) {
@@ -26,7 +15,6 @@ setInterval(async () => {
     timeLeft = alarm.scheduledTime - Date.now();
   }
   if (timeLeft - 1000 >= 0) {
-    timeLeft -= 1000;
     timeLeftValue.textContent = millisToMinutesAndSeconds(timeLeft);
   }
 }, 1000);

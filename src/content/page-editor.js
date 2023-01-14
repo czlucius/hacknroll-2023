@@ -14,12 +14,13 @@ browser.runtime.onMessage.addListener(data => {
         overlay.innerHTML = `
             <div id="breaks-inner" style="padding: 16px; background-color: blue; position: fixed; inset: 0 0 0 0; height: fit-content; width: fit-content; margin: auto">
                 ${quote}
-                <button id="skipBreakBtn" style="background-color: aliceblue" onclick="(function(){
-    alert('Hey i am calling');
-    return false;
-})();return false;">Skip break</button>
+                <button id="skipBreakBtn" style="background-color: aliceblue">Skip break</button>
             </div>
         `
+
+        overlay.getElementById("skipBreakBtn").onclick = (event) => {
+            
+        }
         overlay.style.position = "fixed";
         overlay.style.top = "0";
         overlay.style.left = "0";
