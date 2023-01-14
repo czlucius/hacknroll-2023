@@ -2,33 +2,30 @@ import logo from './logo.svg';
 import './App.css';
 import {FormControl, InputLabel, MenuItem, Select} from "@mui/material";
 import {useState} from "react";
+import Chooser from "./Chooser";
 
 function App() {
-    const [interval, setInterval] = useState(10)
-    const handleChange = (event) => {
-        const newVal = event.target.value
-        setInterval(newVal)
-    }
-    return (
-        <div>
+    const intervalStateList = useState(10*60)
+    const breaksStateList = useState(10)
 
-            <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">Interval</InputLabel>
-                <Select
-                    labelId="duration-select-label"
-                    id="duration-select"
-                    value={interval}
-                    label="Interval"
-                    onChange={handleChange}
-                >
-                    <MenuItem value={10}>Ten</MenuItem>
-                    <MenuItem value={20}>Twenty</MenuItem>
-                    <MenuItem value={30}>Thirty</MenuItem>
-                </Select>
-            </FormControl>
+    return (
+
+        <div style={{margin: "20px"}}>
+            <Chooser title="Interval" options={[
+                {value: 10*60, display: "10 min"},
+                {value: 20*60, display: "20 min"},
+                {value: 30*60, display: "30 min"}
+            ]} loadState={intervalStateList}/>
+
+            <Chooser title="Breaks" options={[
+                {value: 10, display: "10s"},
+                {value: 20, display: "20s"},
+                {value: 30, display: "30s"}
+            ]} loadState={breaksStateList}/>
 
         </div>
-    );
+    )
+
 
 }
 
