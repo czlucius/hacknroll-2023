@@ -12,21 +12,23 @@
 <body>
 <h3>Eye Care Settings</h3>
 
-<h5>Configure timings</h5>
+<h5>Configure Timings</h5>
 <div id="intervals" class="setting-dropdown">
-    <label id="interval" for="interval-select">Select Interval: </label>
+    <label id="interval" for="interval-select">Select Interval (10:00): </label><br />
     <input name="intervals" id="interval-select" type="range" min="30" max="1800" value="600">
 </div>
 
 <div id="breaks" class="setting-dropdown">
-    <label id="break" for="breaks-select">Break duration: </label>
+    <label id="break" for="breaks-select">Break duration (0:20): </label><br />
     <input name="breaks" id="breaks-select" type="range" min="5" max="60" value="20">
 </div>
 
-<h5>Notification Options</h5>
+<h5>Overlay Options</h5>
 <div id="disable-notify" class="setting-checkbox">
     <input type="checkbox" id="disable-notify-select" name="disable-notify" value="disabled">
-    <label for="disable-notify-select">Disable break notification</label><br>
+    <label for="disable-notify-select">Disable break notification</label><br />
+    <input type="checkbox" id="enable-blue-light" name="enable-light" value="disabled">
+    <label for="enable-light">Enable blue light filter</label>
 </div>
 <div class="setting-checkbox">
   <span>Time until eye break:</span>
