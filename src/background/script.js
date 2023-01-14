@@ -2,12 +2,12 @@ const broadcastAlarmStart = () => {
     browser.runtime.sendMessage(JSON.stringify({trigger: "alarmStart"}));
 }
 
-const periodInMinutes = browser.storage.sync.get("interval").interval || 60 * 10
+const periodInSecs = browser.storage.sync.get("interval").interval || 60 * 10
 
 browser.alarms.create(
     "Breaks",
     {
-        periodInMinutes: periodInMinutes / 60
+        periodInMinutes: periodInSecs / 60
     }
 )
 broadcastAlarmStart();

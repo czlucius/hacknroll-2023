@@ -1,7 +1,9 @@
 "use strict";
 
 async function getValueOrCreate(key, defaultVal) {
-    const val = await browser.storage.sync.get(key).breakDuration
+    console.log(key)
+    const val = (await browser.storage.sync.get(key))[key]
+    console.log("apl", val)
     if (!val) {
         browser.storage.sync.set({[key]: defaultVal})
     }
@@ -29,6 +31,9 @@ browser.runtime.onMessage.addListener(async data => {
         // console.log("overlay", overlay)
         // console.log(overlay.querySelector("#skipBreakBtn"))
         const btn = overlay.querySelector("#skipBreakBtn")
+        if (await getValueOrCreate("showSkip", false)) {
+            btn.remove()
+        }
 
 
         overlay.style.position = "fixed";
@@ -74,14 +79,48 @@ browser.runtime.onMessage.addListener(async data => {
     }
 });
 
-// let blueLight = document.createElement('div');
-// blueLight.style.position = "fixed";
-// blueLight.style.top = "0";
-// blueLight.style.left = "0";
-// blueLight.style.width = "100%";
-// blueLight.style.height = "100%";
-// blueLight.style.backgroundColor = "hsl(155, 30%, 80%);"
-// {brightness(80%) sepia(50%)}
-document.body.style.backdropFilter = "brightness(80%) sepia(50%)"
-// blueLight.style.textAlign = "center"
-// blueLight.style.zIndex = "9999999999"
+
+function onBL() {
+    let blueLight = document.createElement('div');
+    blueLight.id = "blueLight-13749"
+    blueLight.style.position = "fixed";
+    blueLight.style.top = "0";
+    blueLight.style.left = "0";
+    blueLight.style.width = "100%";
+    blueLight.style.height = "100%";
+    blueLight.style.backgroundColor = "rgb(232, 216, 189, 0.15)"
+    blueLight.style.pointerEvents = "None"
+    blueLight.style.textAlign = "center"
+    blueLight.style.zIndex = "9999999999"
+    document.body.appendChild(blueLight)
+}
+
+function offBL() {
+    document.getElementById("blueLight-13749").remove()
+}
+
+
+getValueOrCreate("blueLight", false)
+    .then(enableBL => {
+        console.log("enablebl", enableBL)
+        if (enableBL) {
+            onBL()
+        } else {
+            offBL()
+        }
+    })
+
+browser.storage.onChanged.addListener(
+    (update) => {
+        console.log(update);
+
+        if (update.blueLight !== undefined) {
+            if (update.blueLight.newValue) {
+                onBL()
+            } else {
+                offBL()
+            }
+        }
+
+    }
+)
