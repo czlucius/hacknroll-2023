@@ -1,6 +1,13 @@
 # Hack&Roll Project for 2023 - Eye Care
 ## Inspiration
 As most people use their web browsers a lot everyday to consume content, we decided to create a Web Extension to minimise its harm on people
+## Usage
+
+<p float="left">
+<img src="https://github.com/czlucius/hacknroll-2023/blob/vanilla/ec-settings.png" style="height: 300px; display: inline;">
+<img src="https://github.com/czlucius/hacknroll-2023/blob/vanilla/ec-overlay.png" style="height: 300px; display: inline;">
+</p>
+
 ## Features
 - Screen time alarm
 - Blue light filter
