@@ -8,7 +8,8 @@
   },
   "permissions": [
     "activeTab",
-    "alarms"
+    "alarms",
+    "tabs"
   ],
   "browser_action": {
     "default_icon": "./icon.svg",
