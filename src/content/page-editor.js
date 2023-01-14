@@ -32,3 +32,15 @@ browser.runtime.onMessage.addListener(data => {
         document.body.appendChild(overlay);
     }
 });
+
+// let blueLight = document.createElement('div');
+// blueLight.style.position = "fixed";
+// blueLight.style.top = "0";
+// blueLight.style.left = "0";
+// blueLight.style.width = "100%";
+// blueLight.style.height = "100%";
+// blueLight.style.backgroundColor = "hsl(155, 30%, 80%);"
+// {brightness(80%) sepia(50%)}
+document.body.style.backdropFilter = "brightness(80%) sepia(50%)"
+// blueLight.style.textAlign = "center"
+// blueLight.style.zIndex = "9999999999"
