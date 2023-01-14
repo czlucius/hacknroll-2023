@@ -14,21 +14,13 @@
 
 <h5>Configure timings</h5>
 <div id="intervals" class="setting-dropdown">
-    <label for="interval-select">Choose an interval: </label>
-    <select name="intervals" id="interval-select">
-        <option value="600">10 min</option>
-        <option value="1200">20 min</option>
-        <option value="1800">30 min</option>
-    </select>
+    <label id="interval" for="interval-select">Select Interval: </label>
+    <input name="intervals" id="interval-select" type="range" min="30" max="1800" value="600">
 </div>
 
 <div id="breaks" class="setting-dropdown">
-    <label for="breaks-select">Choose a break duration: </label>
-    <select name="breaks" id="breaks-select">
-        <option value="10">10s</option>
-        <option value="20">20s</option>
-        <option value="30">30s</option>
-    </select>
+    <label id="break" for="breaks-select">Break duration: </label>
+    <input name="breaks" id="breaks-select" type="range" min="5" max="60" value="20">
 </div>
 
 <h5>Notification Options</h5>
