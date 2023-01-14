@@ -2,3 +2,19 @@
 :root {
   font-family: sans-serif;
 }
+
+body{
+  text-align: center;
+  color: white;
+  background-color: black;
+  border: 1px solid white;
+}
+
+select{
+  border-radius: 0px;
+  border: 1px solid black;
+}
+
+.setting-dropdown, .setting-checkbox{
+  margin: 10px;
+}
