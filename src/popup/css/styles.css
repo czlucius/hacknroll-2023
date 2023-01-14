@@ -5,6 +5,9 @@
 
 body{
   text-align: center;
+  color: white;
+  background-color: black;
+  border: 1px solid white;
 }
 
 select{
