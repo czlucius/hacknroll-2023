@@ -23,9 +23,10 @@ browser.runtime.onMessage.addListener(async data => {
         let overlay = document.createElement('div');
         overlay.id = "breaks-overlay"
         overlay.innerHTML = `
-            <div id="breaks-inner" style="padding: 16px; background-color: blue; position: fixed; inset: 0 0 0 0; height: fit-content; width: fit-content; margin: auto">
-                ${quote}
-                <button id="skipBreakBtn" style="background-color: aliceblue">Skip break</button>
+            <div id="breaks-inner" style="padding: 16px; border: 2px solid white; background-color: black; position: fixed; inset: 0 0 0 0; height: fit-content; width: fit-content; margin: auto">
+                <h2>Eye Care Reminder!</h2>
+                <h2>${quote}</h2><br />
+                <button id="skipBreakBtn" style="background-color: black">Skip break</button>
             </div>
         `
         // console.log("overlay", overlay)
@@ -44,6 +45,13 @@ browser.runtime.onMessage.addListener(async data => {
         overlay.style.backgroundColor = "rgba(0,0,0,0.5)";
         overlay.style.textAlign = "center"
         overlay.style.zIndex = "99999999999"
+        overlay.querySelector("#breaks-inner").style.borderRadius = "20px"
+        overlay.querySelector("#breaks-inner").style.color = "white"
+        overlay.querySelector("#skipBreakBtn").style.color = "black"
+        
+        overlay.querySelector("#breaks-inner").style.fontSize = "20px"
+        overlay.querySelector("#skipBreakBtn").style.fontSize = "15px"
+        overlay.querySelector("#skipBreakBtn").style.margin = "5px"
 
         document.body.appendChild(overlay);
 
