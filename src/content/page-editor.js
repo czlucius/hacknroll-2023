@@ -26,7 +26,7 @@ browser.runtime.onMessage.addListener(async data => {
             <div id="breaks-inner" style="padding: 16px; border: 2px solid white; background-color: black; position: fixed; inset: 0 0 0 0; height: fit-content; width: fit-content; margin: auto">
                 <h2>Eye Care Reminder!</h2>
                 <h2>${quote}</h2><br />
-                <button id="skipBreakBtn" style="background-color: black">Skip break</button>
+                <button id="skipBreakBtn" style="background-color: white">Skip break</button>
             </div>
         `
         // console.log("overlay", overlay)
@@ -52,8 +52,18 @@ browser.runtime.onMessage.addListener(async data => {
         overlay.querySelector("#breaks-inner").style.fontSize = "20px"
         overlay.querySelector("#skipBreakBtn").style.fontSize = "15px"
         overlay.querySelector("#skipBreakBtn").style.margin = "5px"
+        overlay.querySelector("#skipBreakBtn").style.position = "relative"
 
         document.body.appendChild(overlay);
+
+        overlay.querySelector("#breaks-inner").animate(
+            [
+              { transform: "scale(0.7)" },
+              { transform: "scale(1)" }
+            ], {
+              duration: 2000
+            }
+        );
 
         btn.onclick = (event) => {
             console.log("overlay removed via btn")
