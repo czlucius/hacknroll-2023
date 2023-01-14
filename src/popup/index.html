@@ -10,7 +10,10 @@
     <link rel="stylesheet" href="./css/styles.css">
 </head>
 <body>
-  <div id="intervals">
+  <h3>Eye Care Settings</h3>  
+
+  <h5>Configure timings</h5>
+  <div id="intervals" class="setting-dropdown">
       <label for="interval-select">Choose an interval: </label>
       <select name="intervals" id="interval-select">
           <option value="60">10 min</option>
@@ -19,13 +22,19 @@
       </select>
   </div>
 
-  <div id="breaks">
+  <div id="breaks" class="setting-dropdown">
       <label for="breaks-select">Choose a break duration: </label>
       <select name="breaks" id="breaks-select">
           <option value="10">10s</option>
           <option value="20">20s</option>
           <option value="30">30s</option>
       </select>
+  </div>
+
+  <h5>Notification Options</h5>
+  <div id="disable-notify" class="setting-checkbox">
+    <input type="checkbox" id="disable-notify-select" name="disable-notify" value="0">
+    <label for="disable-notify">Disable break notification</label><br>
   </div>
 
   <!-- Scripts -->
