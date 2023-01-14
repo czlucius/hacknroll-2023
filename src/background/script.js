@@ -1,6 +1,6 @@
 // console.log("9hgvf92h9fg29fh9")
 
-const periodInMinutes = 0.01
+const periodInMinutes = browser.storage.sync.get("intervalPeriodMins").value
 browser.alarms.create(
     "Breaks",
     {
