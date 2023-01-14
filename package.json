@@ -1,0 +1,13 @@
+{
+  "name": "vanilla-ext",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "firefox": "cd src && web-ext run"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/firefox-webext-browser": "^94.0.1"
+  }
+}
