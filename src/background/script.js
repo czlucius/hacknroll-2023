@@ -35,7 +35,7 @@ browser.alarms.onAlarm.addListener(handleAlarm)
 
 function generateBreakQuote() {
     const quotes = ["Take a walk", "Close your eyes", "Look at trees", "Touch grass", "Go to the park","Have a snack","Look around you","Talk to someone"]
-    return quotes[Math.round(Math.random() * quotes.length - 1)+1]
+    return quotes[Math.floor(Math.random()*quotes.length)];
 }
 
 
