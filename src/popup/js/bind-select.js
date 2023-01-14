@@ -2,13 +2,23 @@
 const intervalSelect = document.querySelector("#interval-select");
 const durationSelect = document.querySelector("#breaks-select");
 
+
+function secondsToMinutesAndSeconds(seconds) {
+  var minutes = Math.floor(seconds / 60);
+  const sec = seconds - (minutes * 60)
+  return minutes + ":" + (sec < 10 ? '0' : '') + sec;
+}
+
+
 intervalSelect.onchange = async e => {
   const interval = parseInt(e.target.value);
+  document.getElementById("interval").innerText = `Select Interval (${secondsToMinutesAndSeconds(interval)}): `
   await browser.storage.sync.set({ interval });
 };
 
 durationSelect.onchange = async e => {
   const breakDuration = parseInt(e.target.value);
+  document.getElementById("break").innerText = `Break Duration (${secondsToMinutesAndSeconds(breakDuration)}): `
   await browser.storage.sync.set({ breakDuration });
 };
 
