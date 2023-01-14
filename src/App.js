@@ -3,10 +3,15 @@ import './App.css';
 import {FormControl, InputLabel, MenuItem, Select} from "@mui/material";
 import {useState} from "react";
 import Chooser from "./Chooser";
+import Notify from "./Notify"
 
 function App() {
+    const timer = useState(10*60)
+
     const intervalStateList = useState(10*60)
     const breaksStateList = useState(10)
+
+    const reminders = ["Take a walk","Close your eyes","Look at trees","Touch grass"]
 
     return (
 
@@ -23,6 +28,8 @@ function App() {
                 {value: 30, display: "30s"}
             ]} loadState={breaksStateList}/>
 
+
+            <Notify reminders={reminders} loadState={timer}/>
         </div>
     )
 
