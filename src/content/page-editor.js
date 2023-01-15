@@ -106,7 +106,8 @@ function onBL() {
     blueLight.style.left = "0";
     blueLight.style.width = "100%";
     blueLight.style.height = "100%";
-    blueLight.style.backgroundColor = "rgb(232, 216, 189, 0.15)"
+    blueLight.style.backgroundColor = "rgb(232, 216, 189)"
+    blueLight.style.mixBlendMode = "multiply"
     blueLight.style.pointerEvents = "None"
     blueLight.style.textAlign = "center"
     blueLight.style.zIndex = "9999999999"
