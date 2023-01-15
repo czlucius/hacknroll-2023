@@ -2,15 +2,17 @@ const broadcastAlarmStart = () => {
     browser.runtime.sendMessage(JSON.stringify({trigger: "alarmStart"}));
 }
 
-const periodInSecs = browser.storage.sync.get("interval").interval || 60 * 10
+(async () => {
+    const periodInSecs = (await browser.storage.sync.get("interval")).interval || 60 * 10
 
-browser.alarms.create(
-    "Breaks",
-    {
-        periodInMinutes: periodInSecs / 60
-    }
-)
-broadcastAlarmStart();
+    browser.alarms.create(
+        "Breaks",
+        {
+            periodInMinutes: periodInSecs / 60
+        }
+    )
+    broadcastAlarmStart();
+})();
 
 browser.storage.onChanged.addListener(
     (update) => {
