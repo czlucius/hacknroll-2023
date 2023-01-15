@@ -8,12 +8,21 @@ async function getValueOrCreate(key, defaultVal) {
   return val || defaultVal;
 }
 
+function millisToMinutesAndSeconds(millis) {
+  var minutes = Math.floor(millis / 60000);
+  var seconds = ((millis % 60000) / 1000).toFixed(0);
+  return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
+}
+
 // Globals
 let overlay;
 let breakTimeout;
 
 
 // Break Handling
+
+const sendEndBreak = async () => {
+};
 
 const sendSkipBreak = () => {
   browser.tabs.query({}, function (tabs) {
@@ -26,10 +35,12 @@ const sendSkipBreak = () => {
   });
 };
 
-const skipBreak = () => {
+const skipBreak = async () => {
   overlay.remove();
-  if (breakTimeout) {
-    clearTimeout(breakTimeout);
+  await sendEndBreak();
+  const breakAlarm = await browser.alarms.get("breakAlarm");
+  if (breakAlarm) {
+    browser.alarms.clear("breakAlarm");
   }
 };
 
@@ -41,6 +52,7 @@ const displayBreakOverlay = async (quote) => {
       <div id="breaks-inner" style="padding: 16px; border: 2px solid white; background-color: black; position: fixed; inset: 0 0 0 0; height: fit-content; width: fit-content; margin: auto">
           <h2>Eye Care Reminder!</h2>
           <h2>${quote}</h2><br />
+          <p>Break Left: <span>0s</span></p>
           <button id="skipBreakBtn" style="background-color: white">Skip break</button>
       </div>
   `;
@@ -90,22 +102,60 @@ const displayBreakOverlay = async (quote) => {
 
 browser.runtime.onMessage.addListener(async data => {
 
+  try {
     const jsondata = JSON.parse(data)
-
+    console.log(jsondata);
+    const { trigger } = jsondata;
+  
     if (jsondata.trigger === 'breaks') {
-        const {quote} = jsondata
-
-        await displayBreakOverlay(quote);
-
-        // Get Break Duration
-        const breakDuration = await getValueOrCreate("breakDuration", 10)
-
-        // Remove Overlay via Timeout
-        breakTimeout = setTimeout(() => {
-            skipBreak();
-        }, breakDuration * 1000)
+      const {quote} = jsondata
+  
+      await displayBreakOverlay(quote);
+  
+      // Set Alarm
+      browser.runtime.sendMessage(JSON.stringify({
+        trigger: "startBreak"
+      }));
     }
-    else if (jsondata.trigger === 'skipbreak') {
-        skipBreak();
+    else if (jsondata.trigger === 'closeoverlay') {
+      skipBreak();
     }
+    else if (trigger === "onesecondinterval") {
+      console.log("1s interval");
+      const alarm = jsondata.breakAlarm;
+      if (alarm) {
+        console.log("hello");
+        timeLeft = alarm.scheduledTime - Date.now();
+      }
+      
+      if (overlay) {
+        const timeLeftLabel = overlay.querySelector("span");
+        if (timeLeftLabel) {
+          timeLeftLabel.textContent = millisToMinutesAndSeconds(alarm.scheduledTime - Date.now());
+      
+          if (timeLeft - 1000 >= 0) {
+            timeLeftLabel.textContent = millisToMinutesAndSeconds(timeLeft);
+          } else {
+            timeLeftLabel.textContent = "finished"
+          }
+        }
+      }
+    }
+
+  } catch {}
 });
+
+
+// // Skip (Stop) Break when timer over
+// browser.alarms.onAlarm.addListener((alarm) => {
+//   if (alarm.name === "breakAlarm") {
+//     skipBreak();
+//   }
+// });
+
+// browser.alarms.onAlarm.addListener(alarm => {
+//   if (alarm.name === "onesecondinterval") {
+//     console.log("1s");
+//     runTimeLeftUpdate();
+//   }
+// });

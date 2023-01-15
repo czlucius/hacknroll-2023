@@ -72,7 +72,9 @@ function handleAlarm(alarmInfo) {
 
 
             }
-        })
+        });
+
+        browser.alarms.clear("Breaks");
 
 
         console.log(res)
