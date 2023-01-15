@@ -21,27 +21,12 @@ let breakTimeout;
 
 // Break Handling
 
-const sendEndBreak = async () => {
-};
-
 const sendSkipBreak = () => {
-  browser.tabs.query({}, function (tabs) {
-    for (const tab of tabs) {
-      const msgPromise = browser.tabs.sendMessage(
-        tab.id,
-        JSON.stringify({trigger: "skipbreak"})
-      )
-    }
-  });
-};
+  browser.runtime.sendMessage(JSON.stringify({ trigger: "endbreakearly" }));
+}
 
 const skipBreak = async () => {
   overlay.remove();
-  await sendEndBreak();
-  const breakAlarm = await browser.alarms.get("breakAlarm");
-  if (breakAlarm) {
-    browser.alarms.clear("breakAlarm");
-  }
 };
 
 const displayBreakOverlay = async (quote) => {
@@ -68,7 +53,6 @@ const displayBreakOverlay = async (quote) => {
     btn.style.position = "relative";
 
     btn.onclick = (event) => {
-      skipBreak();
       sendSkipBreak();
     };
   }
@@ -104,7 +88,6 @@ browser.runtime.onMessage.addListener(async data => {
 
   try {
     const jsondata = JSON.parse(data)
-    console.log(jsondata);
     const { trigger } = jsondata;
   
     if (jsondata.trigger === 'breaks') {
@@ -121,10 +104,8 @@ browser.runtime.onMessage.addListener(async data => {
       skipBreak();
     }
     else if (trigger === "onesecondinterval") {
-      console.log("1s interval");
       const alarm = jsondata.breakAlarm;
       if (alarm) {
-        console.log("hello");
         timeLeft = alarm.scheduledTime - Date.now();
       }
       

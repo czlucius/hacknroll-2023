@@ -17,7 +17,7 @@ browser.alarms.onAlarm.addListener(async (alarm) => {
   }
 });
 
-browser.runtime.onMessage.addListener(data => {
+browser.runtime.onMessage.addListener(async (data) => {
   try {
     const { trigger } = JSON.parse(data);
 
@@ -29,6 +29,25 @@ browser.runtime.onMessage.addListener(data => {
         const periodInMinutes = res.breakDuration || 10;
         browser.alarms.create("breakAlarm", {
           periodInMinutes: periodInMinutes / 60
+        });
+      });
+    }
+    else if (trigger === "endbreakearly") {
+      browser.alarms.clear("breakAlarm");
+      const periodInSecs = (await browser.storage.sync.get("interval")).interval || 60 * 10
+
+      browser.alarms.create(
+          "Breaks",
+          {
+              periodInMinutes: periodInSecs / 60
+          }
+      )
+
+      browser.tabs.query({}, function (tabs) {
+        tabs.forEach(tab => {
+          browser.tabs.sendMessage(tab.id, JSON.stringify({
+            trigger: "closeoverlay",
+          }));
         });
       });
     }
