@@ -18,7 +18,7 @@ browser.runtime.onMessage.addListener(async data => {
     const jsondata = JSON.parse(data)
 
     if (jsondata.trigger === 'breaks') {
-        const {quote, trigger} = jsondata
+        const {quote} = jsondata
 
         let overlay = document.createElement('div');
         overlay.id = "breaks-overlay"
@@ -29,10 +29,9 @@ browser.runtime.onMessage.addListener(async data => {
                 <button id="skipBreakBtn" style="background-color: white">Skip break</button>
             </div>
         `
-        // console.log("overlay", overlay)
-        // console.log(overlay.querySelector("#skipBreakBtn"))
+
         const btn = overlay.querySelector("#skipBreakBtn")
-        if (await getValueOrCreate("showSkip", false)) {
+        if (await getValueOrCreate("disableSkip", false)) {
             btn.remove()
         }
 
@@ -65,6 +64,7 @@ browser.runtime.onMessage.addListener(async data => {
             }
         );
 
+        // User Skipped Break
         btn.onclick = (event) => {
             console.log("overlay removed via btn")
             overlay.remove()
@@ -80,66 +80,20 @@ browser.runtime.onMessage.addListener(async data => {
 
                 }
             })}
-        const breakDuration = await getValueOrCreate("breakDuration", 10)
-        const periodInMinutes = browser.storage.sync.get("interval").interval || 60 * 10
-        console.log("bd", breakDuration)
-        setTimeout(() => {
-            console.log("overlay removed via timeout")
 
+        // Get Break Duration
+        const breakDuration = await getValueOrCreate("breakDuration", 10)
+
+        // Remove Overlay via Timeout
+        setTimeout(() => {
             overlay.remove()
-            console.log("triggered0")
             browser.runtime.sendMessage({'trigger': "enableAlarm"})
         }, breakDuration * 1000)
     }
     else if (jsondata.trigger === 'skipbreak') {
-        console.log("removing overlay")
         document.getElementById("breaks-overlay").remove()
     }
 });
 
 
-function onBL() {
-    let blueLight = document.createElement('div');
-    blueLight.id = "blueLight-13749"
-    blueLight.style.position = "fixed";
-    blueLight.style.top = "0";
-    blueLight.style.left = "0";
-    blueLight.style.width = "100%";
-    blueLight.style.height = "100%";
-    blueLight.style.backgroundColor = "rgb(232, 216, 189)"
-    blueLight.style.mixBlendMode = "multiply"
-    blueLight.style.pointerEvents = "None"
-    blueLight.style.textAlign = "center"
-    blueLight.style.zIndex = "9999999999"
-    document.body.appendChild(blueLight)
-}
 
-function offBL() {
-    document.getElementById("blueLight-13749").remove()
-}
-
-
-getValueOrCreate("blueLight", false)
-    .then(enableBL => {
-        console.log("enablebl", enableBL)
-        if (enableBL) {
-            onBL()
-        } else {
-            offBL()
-        }
-    })
-
-browser.storage.onChanged.addListener(
-    (update) => {
-        console.log(update);
-
-        if (update.blueLight !== undefined) {
-            if (update.blueLight.newValue) {
-                onBL()
-            } else {
-                offBL()
-            }
-        }
-
-    }
-)
