@@ -96,11 +96,4 @@ browser.runtime.onMessage.addListener(async data => {
 });
 
 
-document.addEventListener("focus", () => {
-    console.log("focused")
-});
-
-document.addEventListener("blur", () => {
-    console.log("blurred")
-});
 
