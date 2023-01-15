@@ -46,8 +46,19 @@ const displayBreakOverlay = async (quote) => {
   `;
 
   const btn = overlay.querySelector("#skipBreakBtn");
+  
   if (await getValueOrCreate("disableSkip", false)) {
     btn.remove();
+  } else {
+    btn.style.color = "black";
+    btn.style.fontSize = "15px";
+    btn.style.margin = "5px";
+    btn.style.position = "relative";
+
+    btn.onclick = (event) => {
+      skipBreak();
+      sendSkipBreak();
+    };
   }
 
   overlay.style.position = "fixed";
@@ -61,12 +72,7 @@ const displayBreakOverlay = async (quote) => {
   
   overlay.querySelector("#breaks-inner").style.borderRadius = "20px";
   overlay.querySelector("#breaks-inner").style.color = "white";
-  overlay.querySelector("#skipBreakBtn").style.color = "black";
-  
   overlay.querySelector("#breaks-inner").style.fontSize = "20px";
-  overlay.querySelector("#skipBreakBtn").style.fontSize = "15px";
-  overlay.querySelector("#skipBreakBtn").style.margin = "5px";
-  overlay.querySelector("#skipBreakBtn").style.position = "relative";
 
   document.body.appendChild(overlay);
 
@@ -90,12 +96,6 @@ browser.runtime.onMessage.addListener(async data => {
         const {quote} = jsondata
 
         await displayBreakOverlay(quote);
-
-        // User Skipped Break
-        overlay.querySelector("#skipBreakBtn").onclick = (event) => {
-          skipBreak();
-          sendSkipBreak();
-        };
 
         // Get Break Duration
         const breakDuration = await getValueOrCreate("breakDuration", 10)
