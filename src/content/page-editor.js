@@ -143,3 +143,13 @@ browser.storage.onChanged.addListener(
 
     }
 )
+
+document.addEventListener("focus", () => {
+        console.log("focused")
+});
+
+document.addEventListener("blur", () => {
+        console.log("blurred")
+});
+
+
