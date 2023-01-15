@@ -94,3 +94,6 @@ browser.runtime.onMessage.addListener(async data => {
         document.getElementById("breaks-overlay").remove()
     }
 });
+
+
+
