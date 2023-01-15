@@ -8,7 +8,7 @@ function millisToMinutesAndSeconds(millis) {
   return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
 }
 
-setInterval(async () => {
+const runTimeLeftUpdate = async () => {
   const alarm = await browser.alarms.get("Breaks");
   if (alarm) {
     console.log("hello");
@@ -16,5 +16,10 @@ setInterval(async () => {
   }
   if (timeLeft - 1000 >= 0) {
     timeLeftValue.textContent = millisToMinutesAndSeconds(timeLeft);
+  } else {
+    timeLeftValue.textContent = "disabled"
   }
-}, 1000);
+  setTimeout(runTimeLeftUpdate, 1000);
+};
+
+runTimeLeftUpdate();
