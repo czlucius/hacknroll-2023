@@ -1,14 +1,13 @@
-
 const broadcastAlarmStart = () => {
-  browser.runtime.sendMessage(JSON.stringify({ trigger: "alarmStart" }));
+    browser.runtime.sendMessage(JSON.stringify({trigger: "alarmStart"}));
 }
 
-const periodInMinutes = browser.storage.sync.get("interval").interval || 60*10
+const periodInSecs = browser.storage.sync.get("interval").interval || 60 * 10
 
 browser.alarms.create(
     "Breaks",
     {
-        periodInMinutes: periodInMinutes / 60
+        periodInMinutes: periodInSecs / 60
     }
 )
 broadcastAlarmStart();
@@ -35,13 +34,13 @@ browser.storage.onChanged.addListener(
 browser.alarms.onAlarm.addListener(handleAlarm)
 
 function generateBreakQuote() {
-    const quotes = ["Take a walk", "Close your eyes", "Look at trees", "Touch grass"]
-    return quotes[Math.round(Math.random() * quotes.length - 1)]
+    const quotes = ["Take a walk", "Close your eyes", "Look at trees", "Touch grass", "Go to the park","Have a snack","Look around you","Talk to someone"]
+    return quotes[Math.floor(Math.random()*quotes.length)];
 }
 
 
-function getValueOrCreate(key, defaultVal) {
-    const val = browser.storage.sync.get(key)
+async function getValueOrCreate(key, defaultVal) {
+    const val = await browser.storage.sync.get(key).breakDuration
     if (!val) {
         browser.storage.sync.set({[key]: defaultVal})
     }
@@ -49,8 +48,7 @@ function getValueOrCreate(key, defaultVal) {
 }
 
 
-
- function handleAlarm(alarmInfo) {
+function handleAlarm(alarmInfo) {
     const name = alarmInfo.name
 
     if (name === "Breaks") {
@@ -58,7 +56,6 @@ function getValueOrCreate(key, defaultVal) {
         console.log("a", generateBreakQuote)
 
         const quote = generateBreakQuote()
-        const breakDuration = getValueOrCreate("breakDuration", 10)
         browser.tabs.query({}, function (tabs) {
 
             for (const tab of tabs) {
@@ -66,17 +63,40 @@ function getValueOrCreate(key, defaultVal) {
 
                 const msgPromise = browser.tabs.sendMessage(
                     tab.id,
-                    JSON.stringify({trigger: "breaks", quote, breakDuration})
-                )
+                    JSON.stringify({trigger: "breaks", quote})
+                ).then(_ => {
+                    browser.alarms.clear("Breaks")
+                })
 
 
             }
         })
 
 
-
-
         console.log(res)
     }
 }
+
+
+browser.runtime.onMessage.addListener(msg => {
+    console.log("triggered1")
+    const trigger = msg.trigger
+    console.log(trigger)
+    if (trigger === "enableAlarm") {
+        console.log("alarms are working!")
+        // we enable alarm here
+
+        browser.alarms.clear("Breaks")
+        browser.storage.sync.get("interval").then(res => {
+            const periodInMinutes = res.interval || 60 * 10
+            browser.alarms.create(
+                "Breaks",
+                {
+                    periodInMinutes: periodInMinutes / 60
+                }
+            )
+        })
+
+    }
+})
 

@@ -4,7 +4,7 @@
   "version": "1.0",
   "description": "An app for Eye Care",
   "icons": {
-    "48": "./icon.svg"
+    "48": "./eye.svg"
   },
   "permissions": [
     "activeTab",
@@ -14,7 +14,7 @@
     "tabs"
   ],
   "browser_action": {
-    "default_icon": "./icon.svg",
+    "default_icon": "./eye.svg",
     "default_title": "Eye Care",
     "default_popup": "./popup/index.html"
   },

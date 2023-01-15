@@ -12,29 +12,23 @@
 <body>
 <h3>Eye Care Settings</h3>
 
-<h5>Configure timings</h5>
+<h5>Configure Timings</h5>
 <div id="intervals" class="setting-dropdown">
-    <label for="interval-select">Choose an interval: </label>
-    <select name="intervals" id="interval-select">
-        <option value="600">10 min</option>
-        <option value="1200">20 min</option>
-        <option value="1800">30 min</option>
-    </select>
+    <label id="interval" for="interval-select">Select Interval (10:00): </label><br />
+    <input name="intervals" id="interval-select" type="range" min="10" max="1800" value="6000">
 </div>
 
 <div id="breaks" class="setting-dropdown">
-    <label for="breaks-select">Choose a break duration: </label>
-    <select name="breaks" id="breaks-select">
-        <option value="10">10s</option>
-        <option value="20">20s</option>
-        <option value="30">30s</option>
-    </select>
+    <label id="break" for="breaks-select">Break duration (0:20): </label><br />
+    <input name="breaks" id="breaks-select" type="range" min="5" max="60" value="20">
 </div>
 
-<h5>Notification Options</h5>
+<h5>Overlay Options</h5>
 <div id="disable-notify" class="setting-checkbox">
-    <input type="checkbox" id="disable-notify-select" name="disable-notify" value="disabled">
-    <label for="disable-notify-select">Disable break notification</label><br>
+    <input type="checkbox" id="disable-skip-select" name="disable-skip" value="disabled">
+    <label for="disable-skip-select">Disable skipping breaks</label><br />
+    <input type="checkbox" id="enable-blue-light" name="enable-light">
+    <label for="enable-blue-light">Enable blue light filter</label>
 </div>
 <div class="setting-checkbox">
   <span>Time until eye break:</span>
