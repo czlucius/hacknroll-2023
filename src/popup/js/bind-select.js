@@ -23,7 +23,7 @@ durationSelect.onchange = async e => {
 };
 
 disableSkipSelect.addEventListener('change', async (event) => {
-    await browser.storage.sync.set({showSkip: event.currentTarget.checked});
+    await browser.storage.sync.set({disableSkip: event.currentTarget.checked});
 })
 
 
@@ -31,9 +31,11 @@ disableSkipSelect.addEventListener('change', async (event) => {
 const syncSelectValues = async () => {
     const {interval, breakDuration, disableSkip, blueLight} = await browser.storage.sync.get(["interval", "breakDuration", "disableSkip", "blueLight"]);
     intervalSelect.value = interval;
+    document.getElementById("interval").innerText = `Select Interval (${secondsToMinutesAndSeconds(interval)}): `
     durationSelect.value = breakDuration;
-    blueLightSelect.checked = blueLight
-    disableSkipSelect.checked = disableSkip
+    document.getElementById("break").innerText = `Break Duration (${secondsToMinutesAndSeconds(breakDuration)}): `
+    blueLightSelect.checked = blueLight;
+    disableSkipSelect.checked = disableSkip;
 }
 
 const initStorageValues = async () => {
