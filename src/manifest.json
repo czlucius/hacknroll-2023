@@ -33,7 +33,7 @@
   "content_scripts": [
     {
       "matches": ["*://*/*"],
-      "js": ["/content/break-overlay.js", "/content/blue-light.js"]
+      "js": ["/content/break-overlay.js", "/content/blue-light.js", "/content/focus-checker.js"]
     }
   ],
 
